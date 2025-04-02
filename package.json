@@ -39,6 +39,8 @@
     "vitest": "3.0.9"
   },
   "dependencies": {
+    "@fastify/cookie": "11.0.2",
+    "@fastify/jwt": "9.1.0",
     "@paralleldrive/cuid2": "2.2.2",
     "bcryptjs": "3.0.2",
     "dotenv": "16.4.7",
