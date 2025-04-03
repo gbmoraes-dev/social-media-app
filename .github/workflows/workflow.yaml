@@ -6,6 +6,25 @@ jobs:
   continuous-integration:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: bitnami/postgresql
+        env:
+          POSTGRES_USER: docker
+          POSTGRES_PASSWORD: docker
+          POSTGRES_DB: social-media-db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U docker"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+
     steps:
       - uses: actions/checkout@v4
 
@@ -19,8 +38,13 @@ jobs:
         with:
           version: 10.x
 
-      - name: Run install, build and test
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run migrations
+        run: pnpm migrate:push
+
+      - name: Run build and test
         run: |
-          pnpm install
           pnpm build
           pnpm test
