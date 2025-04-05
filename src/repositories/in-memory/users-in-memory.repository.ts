@@ -15,7 +15,7 @@ export class UsersInMemoryRepository implements UsersRepository {
       email: data.email,
       passwordHash: data.passwordHash,
       emailIsVerified: false,
-      emailVerificationToken: 'b49tth78ffudtwb9x98wi68p',
+      emailVerificationToken: '397515',
       createdAt: new Date(),
       updatedAt: new Date(),
     }
@@ -23,6 +23,12 @@ export class UsersInMemoryRepository implements UsersRepository {
     this.users.push(user)
 
     return user
+  }
+
+  async findById(id: string) {
+    const user = this.users.find((user) => user.id === id)
+
+    return user ?? null
   }
 
   async findByEmail(email: string) {

@@ -18,6 +18,12 @@ export class UsersDrizzleRepository implements UsersRepository {
     return user
   }
 
+  async findById(id: string): Promise<User | null> {
+    const [user] = await db.select().from(users).where(eq(users.id, id))
+
+    return user ?? null
+  }
+
   async findByEmail(email: string): Promise<User | null> {
     const [user] = await db.select().from(users).where(eq(users.email, email))
 
